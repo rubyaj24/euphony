@@ -16,12 +16,14 @@
 # next.js
 /.next/
 /out/
+/.turbo/
 
 # production
 /build
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
@@ -35,6 +37,13 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# local editor/workspace
+.vscode/
+.idea/
+
+# local Codex/agent artifacts
+.agents/
 
 # typescript
 *.tsbuildinfo
