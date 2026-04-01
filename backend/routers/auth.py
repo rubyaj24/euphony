@@ -1,12 +1,18 @@
 from fastapi import APIRouter, HTTPException, Depends, Request, Response
 from fastapi.responses import JSONResponse
 from datetime import timedelta
-from core.database import get_db
-from core.security import create_access_token, decode_token
-from core.config import get_settings
 import httpx
 import uuid
 from urllib.parse import urlencode
+
+try:
+    from core.database import get_db
+    from core.security import create_access_token, decode_token
+    from core.config import get_settings
+except ModuleNotFoundError:
+    from backend.core.database import get_db
+    from backend.core.security import create_access_token, decode_token
+    from backend.core.config import get_settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 settings = get_settings()

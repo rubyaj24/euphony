@@ -1,9 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from core.database import init_db, close_db
-from core.config import get_settings
-from routers import finalists, votes, admin, auth, schedule
+from pathlib import Path
+import sys
+
+# FastAPI Cloud can package code as /app or /app/backend depending on deploy context.
+# Add both candidates so imports like `core.*` resolve reliably.
+_BASE_DIR = Path(__file__).resolve().parent
+for _candidate in (_BASE_DIR, _BASE_DIR / "backend"):
+    _candidate_str = str(_candidate)
+    if _candidate.exists() and _candidate_str not in sys.path:
+        sys.path.insert(0, _candidate_str)
+
+try:
+    from core.database import init_db, close_db
+    from core.config import get_settings
+    from routers import finalists, votes, admin, auth, schedule
+except ModuleNotFoundError:
+    from backend.core.database import init_db, close_db
+    from backend.core.config import get_settings
+    from backend.routers import finalists, votes, admin, auth, schedule
 
 settings = get_settings()
 

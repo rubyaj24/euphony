@@ -1,7 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional
-from core.database import get_db
-from schemas import FinalistResponse, DuetResponse
+
+try:
+    from core.database import get_db
+    from schemas import FinalistResponse, DuetResponse
+except ModuleNotFoundError:
+    from backend.core.database import get_db
+    from backend.schemas import FinalistResponse, DuetResponse
 
 router = APIRouter(prefix="/finalists", tags=["finalists"])
 

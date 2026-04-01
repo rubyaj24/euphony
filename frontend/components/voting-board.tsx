@@ -116,7 +116,7 @@ export function VotingBoard() {
             department: f.department,
             track: f.track,
             round: f.round,
-            avatar: f.avatar_url || "",
+            avatar: f.avatar_url || "/euphony.png",
           }))
         );
       } catch {
@@ -363,7 +363,7 @@ export function VotingBoard() {
                             index % 2 === 0 ? "sm:-rotate-1" : "sm:rotate-1"
                           }`}
                         >
-                          <div className="relative w-full overflow-hidden rounded-md border-2 border-black aspect-[4/3] sm:aspect-[16/10]">
+                          <div className="relative w-full overflow-hidden rounded-md border-2 border-black aspect-4/3 sm:aspect-16/10">
                             <Image
                               src={finalist.avatar}
                               alt={finalist.name}

@@ -2,12 +2,21 @@ from fastapi import APIRouter, HTTPException, Depends, status, Request
 from fastapi.responses import JSONResponse
 from typing import Optional
 from asyncpg.exceptions import UniqueViolationError
-from core.database import get_db
-from schemas import (
-    VoteCreate, VoteResponse, VoteCheck, VoteCountsResponse, 
-    VotingStatus, Category, CATEGORIES
-)
-from core.security import decode_token
+
+try:
+    from core.database import get_db
+    from schemas import (
+        VoteCreate, VoteResponse, VoteCheck, VoteCountsResponse,
+        VotingStatus, Category, CATEGORIES
+    )
+    from core.security import decode_token
+except ModuleNotFoundError:
+    from backend.core.database import get_db
+    from backend.schemas import (
+        VoteCreate, VoteResponse, VoteCheck, VoteCountsResponse,
+        VotingStatus, Category, CATEGORIES
+    )
+    from backend.core.security import decode_token
 
 router = APIRouter(prefix="/votes", tags=["votes"])
 

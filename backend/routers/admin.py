@@ -1,11 +1,20 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Request
 from typing import Optional
-from core.database import get_db
-from schemas import (
-    SettingsUpdate, SettingsResponse, NextCategoryResponse, 
-    AdminStatusResponse, Category, CATEGORY_ORDER, CATEGORIES
-)
-from core.security import decode_token
+
+try:
+    from core.database import get_db
+    from schemas import (
+        SettingsUpdate, SettingsResponse, NextCategoryResponse,
+        AdminStatusResponse, Category, CATEGORY_ORDER, CATEGORIES
+    )
+    from core.security import decode_token
+except ModuleNotFoundError:
+    from backend.core.database import get_db
+    from backend.schemas import (
+        SettingsUpdate, SettingsResponse, NextCategoryResponse,
+        AdminStatusResponse, Category, CATEGORY_ORDER, CATEGORIES
+    )
+    from backend.core.security import decode_token
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 

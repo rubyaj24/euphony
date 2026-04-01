@@ -1,5 +1,9 @@
 from fastapi import APIRouter, Depends
-from core.database import get_db
+
+try:
+    from core.database import get_db
+except ModuleNotFoundError:
+    from backend.core.database import get_db
 
 router = APIRouter(prefix="/schedule", tags=["schedule"])
 
