@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# Virtual environments
+.env
+.venv
+
+# Byte-compiled
+*.pyc
+
+# Distribution
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/

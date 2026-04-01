@@ -20,6 +20,42 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Production Deployment (Vercel + FastAPI Cloud)
+
+### Frontend (Vercel)
+
+Deploy the `frontend` directory as a Next.js app.
+
+Required environment variables:
+
+- `NEXT_PUBLIC_API_URL=https://your-backend-domain`
+
+### Backend (FastAPI Cloud)
+
+Deploy the `backend` directory as a FastAPI app (entrypoint: `main:app`).
+
+Required environment variables:
+
+- `DATABASE_URL=postgresql://...`
+- `JWT_SECRET=<strong-random-secret>`
+- `GOOGLE_CLIENT_ID=...`
+- `GOOGLE_CLIENT_SECRET=...`
+- `GOOGLE_REDIRECT_URI=https://your-backend-domain/auth/google/callback`
+- `FRONTEND_URL=https://your-vercel-domain`
+- `CORS_ORIGINS=https://your-vercel-domain`
+
+Notes:
+
+- `CORS_ORIGINS` accepts comma-separated values for multiple domains.
+- OAuth callback redirects now use `FRONTEND_URL`.
+
+### Google OAuth Console
+
+Configure these values in Google Cloud OAuth client settings:
+
+- Authorized redirect URI: `https://your-backend-domain/auth/google/callback`
+- Authorized JavaScript origin: `https://your-vercel-domain`
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
