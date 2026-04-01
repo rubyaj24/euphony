@@ -16,13 +16,11 @@ async function request<T>(
   }
 
   const token = getAuthToken();
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-    ...(options.headers || {}),
-  };
+  const headers = new Headers(options.headers);
+  headers.set("Content-Type", "application/json");
 
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    headers.set("Authorization", `Bearer ${token}`);
   }
 
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -53,10 +51,10 @@ export const api = {
   auth: {
     googleLogin: () => request<{ url: string }>("/auth/google"),
     googleCallback: (code: string, state: string) =>
-      request<{ success: boolean; user: ApiUser }>("/auth/google/callback", {
-        method: "GET",
-        params: { code, state },
-      }),
+      request<{ success: boolean; user: ApiUser }>(
+        `/auth/google/callback?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`,
+        { method: "GET" }
+      ),
     getMe: () => request<{ user: ApiUser | null }>("/auth/me"),
     logout: () => request<{ success: boolean }>("/auth/logout", { method: "POST" }),
     refresh: () => request<{ success: boolean; token: string }>("/auth/refresh", { method: "POST" }),
