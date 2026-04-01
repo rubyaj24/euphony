@@ -234,11 +234,15 @@ export function VotingBoard() {
     void submitVote();
   };
 
-  const filteredFinalists = useMemo(() => {
-    if (!activeCategory) return [];
+  const isFinalistInActiveCategory = (finalist: Finalist) => {
+    if (!activeCategory) return false;
     const { round, track } = parseCategory(activeCategory);
-    return finalists.filter((f) => f.round === round && f.track === track);
-  }, [finalists, activeCategory]);
+    return finalist.round === round && finalist.track === track;
+  };
+
+  const filteredFinalists = useMemo(() => {
+    return finalists.filter((f) => f.round === "Solo");
+  }, [finalists]);
 
   return (
     <>
@@ -340,7 +344,7 @@ export function VotingBoard() {
 
                 <div className="neo-panel neo-shadow p-3 bg-zinc-900">
                   <h2 className="neo-title text-xl mb-2">
-                    {activeCategory ? CATEGORY_LABELS[activeCategory] : "Finalists"}
+                    Solo Finalists
                   </h2>
                   {!isLoggedIn ? (
                     <div className="text-center text-lg text-cyan-300 py-8">
@@ -393,12 +397,16 @@ export function VotingBoard() {
 
                           <Button
                             onClick={() => voteNow(finalist)}
-                            disabled={castingVote}
+                            disabled={castingVote || !isFinalistInActiveCategory(finalist)}
                             className="mt-2 w-full border-2 border-zinc-100 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
                             size="sm"
                           >
                             <Vote className="w-4 h-4 mr-2" />
-                            {castingVote ? "Submitting..." : "Cast Vote"}
+                            {castingVote
+                              ? "Submitting..."
+                              : isFinalistInActiveCategory(finalist)
+                                ? "Cast Vote"
+                                : "Not in Active Category"}
                           </Button>
                         </article>
                       ))}
